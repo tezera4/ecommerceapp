@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "https://freeapi.miniprojectideas.com/api",
+        "secure": false
+    }
+}

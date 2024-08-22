@@ -1,0 +1,146 @@
+<div class="row">
+  <div [ngClass]="isSideformVisible ? 'col-8' : 'col-12'">
+    <div class="card">
+      <div class="card-header bg-primary text-center">
+        <div class="row">
+          <div class="col-6">Product List</div>
+          <div class="col-6 text-end">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="makeNewFormVIsible('open')"
+            >
+              new
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+      <div class="row">
+        @for (item of allProductList.data; track $index) {
+          <div class="col-3">
+            <div class="card">
+                <img class="card-img-top" [src]="item.productImageUrl" alt="Card image">
+                <div class="card-body">
+                  <h4 class="card-title">{{item.productName}}</h4>
+                  <p class="card-text">{{item.categoryName}}</p>
+                  <a href="#" class="btn btn-primary">See Profile</a>
+                </div>
+              </div>
+        </div>
+
+        }
+        
+      
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4" *ngIf="isSideformVisible">
+    <div class="card">
+      <div class="card-header bg-primary text-center">
+        <div class="row">
+          <div class="col-6">New Product</div>
+          <div class="col-6 text-end">
+            <button
+              class="btn btn-sm btn-success"
+              (click)="makeNewFormVIsible('close')"
+            >
+              close
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <label for="">SKU</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.ProductSku"
+              class="form-control"
+            />
+          </div>
+          <div class="col-6">
+            <label for="">Name</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.ProductName"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="">Short Name</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.ProductShortName"
+              class="form-control"
+            />
+          </div>
+          <div class="col-6">
+            <label for="">Price</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.ProductPrice"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="">category</label>
+            <div class="col-6">
+              <select [(ngModel)]="selectedfromDropDown" class="form-select">
+                <option value="">please select category</option>
+                @for (item of allCategoryList.data; track $index) {
+                <option value="{{item.categoryId}}">
+                  {{ item.categoryName }}
+                </option>
+
+                }
+              </select>
+            </div>
+          </div>
+          <div class="col-6">
+            <label for="">Delivery Time Span</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.DeliveryTimeSpan"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="">Image URL</label>
+            <input
+              type="text"
+              [(ngModel)]="createProductModel.ProductImageUrl"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="">Product Description</label>
+            <textarea
+              rows="4"
+              [(ngModel)]="createProductModel.ProductDescription"
+              class="form-control"
+            ></textarea>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+             <button class="btn btn-primary">reset</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary" (click)="SaveProduct()">Create Product</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
