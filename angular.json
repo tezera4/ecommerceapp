@@ -63,13 +63,13 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          
           "configurations": {
             "production": {
               "buildTarget": "EcommerceApp:build:production"
             },
             "development": {
-              "buildTarget": "EcommerceApp:build:development"              ,
-              "proxyConfig": "src/proxy.conf.json"
+              "buildTarget": "EcommerceApp:build:development"
             }
           },
           "defaultConfiguration": "development"

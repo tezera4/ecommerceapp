@@ -23,7 +23,8 @@
                 <div class="card-body">
                   <h4 class="card-title">{{item.productName}}</h4>
                   <p class="card-text">{{item.categoryName}}</p>
-                  <a href="#" class="btn btn-primary">See Profile</a>
+                  <a (click)="OnEdit(item)" class="btn btn-primary">Edit</a>
+                  <a (click)="OnDelete(item)" class="btn btn-danger">Delete</a>
                 </div>
               </div>
         </div>
@@ -132,12 +133,19 @@
             ></textarea>
           </div>
         </div>
-        <div class="row">
-            <div class="col-6">
+        <div class="row pt-2">
+            <div class="col-6 text-center">
              <button class="btn btn-primary">reset</button>
             </div>
-            <div class="col-6">
+            <div class="col-6 text-center">
+              @if (createProductModel.ProductId==0) {
                 <button class="btn btn-primary" (click)="SaveProduct()">Create Product</button>
+              }
+              @else {
+                <button class="btn btn-primary" (click)="onUpdateProduct()">Update Product</button>
+              }
+                
+                
             </div>
           </div>
       </div>

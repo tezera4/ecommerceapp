@@ -1,1 +1,28 @@
-<p>categories works!</p>
+<div class="row">
+  
+    <div class="col-12">
+     
+        <table class="table">
+          <thead>
+            <tr>
+              <th>SR number</th>
+              <th>category Id</th>
+              <th>category Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of categoryList.data; track $index) {
+              <tr>
+                <td>index</td>
+                <td>{{item.categoryId}}</td>
+                <td>{{item.categoryName}}</td>
+              </tr>
+            }
+            
+           
+          </tbody>
+        </table>
+  </div>
+  
+    
+</div>

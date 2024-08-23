@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/admin/login/login.component';
 import { LayoutComponent } from './pages/admin/layout/layout.component';
 import { OrderComponent } from './pages/admin/order/order.component';
 import { ProductsComponent } from './pages/admin/products/products.component';
+import { CategoriesComponent } from './pages/admin/categories/categories.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,11 @@ export const routes: Routes = [
             {
                 path:'product',
                 component:ProductsComponent
+
+            },
+            {
+                path:'category',
+                component:CategoriesComponent
 
             },
             {
