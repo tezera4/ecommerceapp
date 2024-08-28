@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../../service/product.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../../../service/login/login.service';
@@ -10,12 +10,16 @@ import { AllProductModel } from '../../../model/all-product-model';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,
+    RouterLink,
+    RouterOutlet
+  ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
 export class LandingComponent implements OnInit {
   private productService = inject(ProductService);
+  private route=inject(Router);
  
   ngOnInit(): void {
     this.getAllProducts();
@@ -50,6 +54,12 @@ export class LandingComponent implements OnInit {
         console.log('All Product error', error);
       }
     );
+  }
+
+  onclickCategoryName(id:number){
+    console.log("onclickCategoryName clicked==========="+id)
+    this.route.navigate(['/productcategory',id]);
+
   }
   // loginObj: loginObject = new loginObject();
   // userLoginObj: userLoginObject = new userLoginObject();

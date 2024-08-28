@@ -23,6 +23,10 @@ export class ProductService {
   {
     return this.http.get("https://freeapi.miniprojectideas.com/api/BigBasket/GetAllCategory");
   }
+  getProductByCategoryId(id:number)
+  {
+    return this.http.get("https://freeapi.miniprojectideas.com/api/BigBasket/GetAllProductsByCategoryId?id="+id);
+  }
   createProduct(product:CreateProductModel){
     return this.http.post("https://freeapi.miniprojectideas.com/api/BigBasket/CreateProduct",product);
   }
