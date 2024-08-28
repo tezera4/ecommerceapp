@@ -9,8 +9,12 @@ import { LandingComponent } from './pages/website/landing/landing.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'shop',
     pathMatch: 'full',
+  },
+  {
+    path: 'shop',
+    component: LandingComponent,
   },
   {
     path: 'login',
@@ -20,10 +24,7 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      {
-        path: 'shop',
-        component: LandingComponent,
-      },
+      
       {
         path: 'product',
         component: ProductsComponent,

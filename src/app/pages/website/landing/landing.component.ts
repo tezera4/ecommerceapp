@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { LoginService } from '../../../service/login/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { AllProductModel } from '../../../model/all-product-model';
 
 @Component({
   selector: 'app-landing',
@@ -17,7 +18,7 @@ export class LandingComponent implements OnInit {
  
   ngOnInit(): void {
     this.getAllProducts();
-    this.getAllCategory();
+    // this.getAllCategory();
   }
   loginObj: loginObject = new loginObject();
   userLoginObj: userLoginObject = new userLoginObject();
@@ -51,13 +52,31 @@ export class LandingComponent implements OnInit {
     // }
   }
   productList: any[] = [];
+  productList2:AllProductModel={
+    "message": "",
+    "result": true,
+    "data": [
+      {
+        "productId": 0,
+        "productSku": "",
+        "productName": "",
+        "productPrice": 0,
+        "productShortName": "",
+        "productDescription": "",
+        "createdDate": "",
+        "deliveryTimeSpan": "",
+        "categoryId": 0,
+        "productImageUrl": "",
+        "categoryName": ""
+      }]};  
   categoryList: any[] = [];
   cartList: any[] = [];
 
   getAllProducts() {
     this.prodSrv.getAllProduct().subscribe((res: any) => {
+      debugger;
       if (res.result) {
-        this.productList = res.data;
+        this.productList2 = res;
       }
     });
   }

@@ -15,6 +15,7 @@ export class ProductService {
   public cartUpdated$: Subject<boolean> = new Subject();
 
   getAllProduct(){
+    debugger;
     return this.http.get("https://freeapi.miniprojectideas.com/api/BigBasket/GetAllProducts");
   }
 
