@@ -15,15 +15,46 @@ import { AllProductModel } from '../../../model/all-product-model';
   styleUrl: './landing.component.css'
 })
 export class LandingComponent implements OnInit {
+  private productService = inject(ProductService);
  
   ngOnInit(): void {
     this.getAllProducts();
-    // this.getAllCategory();
+    this.getAllCategory();
   }
-  loginObj: loginObject = new loginObject();
-  userLoginObj: userLoginObject = new userLoginObject();
-  registerObj: registerObject = new registerObject();
-  profileObj: userProfileObject = new userProfileObject();
+  allProductList = {
+    message: '',
+    result: true,
+    data: [
+      {
+        productId: 0,
+        productSku: '',
+        productName: '',
+        productPrice: 0,
+        productShortName: '',
+        productDescription: '',
+        createdDate: '',
+        deliveryTimeSpan: '',
+        categoryId: 0,
+        productImageUrl: '',
+        categoryName: '',
+      },
+    ],
+  };
+  getAllProduct() {
+    this.productService.getAllProduct().subscribe(
+      (res: any) => {
+        // console.log("All Product",res);
+        this.allProductList = res;
+      },
+      (error) => {
+        console.log('All Product error', error);
+      }
+    );
+  }
+  // loginObj: loginObject = new loginObject();
+  // userLoginObj: userLoginObject = new userLoginObject();
+  // registerObj: registerObject = new registerObject();
+  // profileObj: userProfileObject = new userProfileObject();
   loggedInObj: any = {};
   displayModalLogin: boolean = false;
   displayModalRegistration: boolean = false;
@@ -33,24 +64,21 @@ export class LandingComponent implements OnInit {
   showRegisterPassword: boolean = false;
   showProfilePassword: boolean = false;
   isApiCallInProgress: boolean = false;
-  constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient) {
-    const localData = sessionStorage.getItem('bigBasket_user');
-    if (localData !== null) {
-      this.loggedInObj = JSON.parse(localData);
-      this.getCartByCustomerId(this.loggedInObj.custId);
-    }
-    this.prodSrv.cartUpdated$.subscribe((res: any) => {
-      if (res) {
-        this.getCartByCustomerId(this.loggedInObj.custId);
-      }
-    });
+  // constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient) {
+  //   const localData = sessionStorage.getItem('bigBasket_user');
+  //   if (localData !== null) {
+  //     this.loggedInObj = JSON.parse(localData);
+  //     this.getCartByCustomerId(this.loggedInObj.custId);
+  //   }
+  //   this.prodSrv.cartUpdated$.subscribe((res: any) => {
+  //     if (res) {
+  //       this.getCartByCustomerId(this.loggedInObj.custId);
+  //     }
+  //   });
 
-    const rememberLoginInfo = sessionStorage.getItem('rememberMeUser');
-    // if (rememberLoginInfo != null) {
-    //   this.loginObj = JSON.parse(rememberLoginInfo);
-    //   this.rememberMe = true;
-    // }
-  }
+  //   const rememberLoginInfo = sessionStorage.getItem('rememberMeUser');
+   
+  // }
   productList: any[] = [];
   productList2:AllProductModel={
     "message": "",
@@ -73,142 +101,144 @@ export class LandingComponent implements OnInit {
   cartList: any[] = [];
 
   getAllProducts() {
-    this.prodSrv.getAllProduct().subscribe((res: any) => {
-      debugger;
+    this.productService.getAllProduct().subscribe((res: any) => {
+      // debugger;
       if (res.result) {
         this.productList2 = res;
+        console.log("Tezera you working great======",res);
       }
     });
   }
 
   getAllCategory() {
-    this.prodSrv.getAllCategory().subscribe((res: any) => {
+    this.productService.getAllCategory().subscribe((res: any) => {
       // Get top-level categories (parentCategoryId = 0)
       this.categoryList = res.data.filter((list: any) => list.parentCategoryId === 0);
+      console.log("Teze is working hard 2",this.categoryList);
     });
   }
 
-  resetSubcategories() {
-    // Reset subcategories for all parent categories
-    this.categoryList.forEach((category: any) => {
-      category.subcategories = undefined;
-    });
-  }
-  loadSubcategories(parentCategory: any) {
-    // Reset subcategories for all other parent categories
-    this.categoryList.forEach((category: any) => {
-      if (category !== parentCategory) {
-        category.subcategories = undefined;
-      }
-    });
-    // Fetch subcategories for the given parentCategoryId
-    if (!parentCategory.subcategories) {
-      setTimeout(() => {
-        this.prodSrv.getAllCategory().subscribe((res: any) => {
-          const subcategories = res.data.filter((list: any) => list.parentCategoryId === parentCategory.categoryId);
-          // Update the corresponding parent category with subcategories
-          parentCategory.subcategories = subcategories;
-          // console.log(subcategories);
-        });
-      }, 100);
-    }
-  }
+  // resetSubcategories() {
+  //   // Reset subcategories for all parent categories
+  //   this.categoryList.forEach((category: any) => {
+  //     category.subcategories = undefined;
+  //   });
+  // }
+  // loadSubcategories(parentCategory: any) {
+  //   // Reset subcategories for all other parent categories
+  //   this.categoryList.forEach((category: any) => {
+  //     if (category !== parentCategory) {
+  //       category.subcategories = undefined;
+  //     }
+  //   });
+  //   // Fetch subcategories for the given parentCategoryId
+  //   if (!parentCategory.subcategories) {
+  //     setTimeout(() => {
+  //       this.prodSrv.getAllCategory().subscribe((res: any) => {
+  //         const subcategories = res.data.filter((list: any) => list.parentCategoryId === parentCategory.categoryId);
+  //         // Update the corresponding parent category with subcategories
+  //         parentCategory.subcategories = subcategories;
+  //         // console.log(subcategories);
+  //       });
+  //     }, 100);
+  //   }
+  // }
 
-  navigateToProducts(id: number) {
-    this.router.navigate(['/products', id]);
-  }
+  // navigateToProducts(id: number) {
+  //   this.router.navigate(['/products', id]);
+  // }
 
-  calculateTotalSubtotal() {
-    let totalSubtotal = 0;
-    for (const item of this.cartList) {
-      totalSubtotal += (item.productPrice * item.quantity);
-    }
-    return totalSubtotal;
-  }
-  getCartByCustomerId(custId: number) {
-    this.prodSrv.getCartDataByCustId(custId).subscribe((res: any) => {
-      if (res.result) {
-        this.cartList = res.data;
-      }
-    });
-  }
+  // calculateTotalSubtotal() {
+  //   let totalSubtotal = 0;
+  //   for (const item of this.cartList) {
+  //     totalSubtotal += (item.productPrice * item.quantity);
+  //   }
+  //   return totalSubtotal;
+  // }
+  // getCartByCustomerId(custId: number) {
+  //   this.prodSrv.getCartDataByCustId(custId).subscribe((res: any) => {
+  //     if (res.result) {
+  //       this.cartList = res.data;
+  //     }
+  //   });
+  // }
 
 
-  remove(cartId: number) {
-    this.prodSrv.removeProductByCartId(cartId).subscribe((res: any) => {
-      this.getCartByCustomerId(this.loggedInObj.custId);
-      this.prodSrv.cartUpdated$.next(true);
-      // this.toastr.error(res.message);
-    });
-  }
+  // remove(cartId: number) {
+  //   this.prodSrv.removeProductByCartId(cartId).subscribe((res: any) => {
+  //     this.getCartByCustomerId(this.loggedInObj.custId);
+  //     this.prodSrv.cartUpdated$.next(true);
+  //     // this.toastr.error(res.message);
+  //   });
+  // }
 
-  openProfileModal() {
-    this.displayModalProfile = true;
-    this.getCustomerByCustomerId();
-  }
-  getCustomerByCustomerId() {
-    this.prodSrv.getCustomerById(this.loggedInObj.custId).subscribe((res: any) => {
-      if (res.result) {
-        this.profileObj = res.data;
-      }
-    });
-  }
-  openLoginModal() {
-    this.displayModalLogin = true;
-  }
-  openRegisterModal() {
-    this.displayModalRegistration = true;
-  }
+  // openProfileModal() {
+  //   this.displayModalProfile = true;
+  //   this.getCustomerByCustomerId();
+  // }
+  // getCustomerByCustomerId() {
+  //   this.prodSrv.getCustomerById(this.loggedInObj.custId).subscribe((res: any) => {
+  //     if (res.result) {
+  //       this.profileObj = res.data;
+  //     }
+  //   });
+  // }
+  // openLoginModal() {
+  //   this.displayModalLogin = true;
+  // }
+  // openRegisterModal() {
+  //   this.displayModalRegistration = true;
+  // }
   
 
 }
 
 
-export class loginObject {
-  UserName: string;
-  UserPassword: string;
+// export class loginObject {
+//   UserName: string;
+//   UserPassword: string;
 
-  constructor() {
-    this.UserName = '';
-    this.UserPassword = '';
-  }
-}
+//   constructor() {
+//     this.UserName = '';
+//     this.UserPassword = '';
+//   }
+// }
 
-export class userLoginObject {
-  EmailId: string;
-  Password: string;
+// export class userLoginObject {
+//   EmailId: string;
+//   Password: string;
 
-  constructor() {
-    this.EmailId = 'rinku@gmail.com';
-    this.Password = 'Rinku@1';
-  }
-}
+//   constructor() {
+//     this.EmailId = 'rinku@gmail.com';
+//     this.Password = 'Rinku@1';
+//   }
+// }
 
-export class registerObject {
-  CustId: number;
-  Name: string;
-  MobileNo: string;
-  Password: string;
+// export class registerObject {
+//   CustId: number;
+//   Name: string;
+//   MobileNo: string;
+//   Password: string;
 
-  constructor() {
-    this.CustId = 0;
-    this.Name = '';
-    this.MobileNo = '';
-    this.Password = '';
-  }
-}
+//   constructor() {
+//     this.CustId = 0;
+//     this.Name = '';
+//     this.MobileNo = '';
+//     this.Password = '';
+//   }
+// }
 
-export class userProfileObject {
-  custId: number;
-  name: string;
-  mobileNo: string;
-  password: string;
+// export class userProfileObject {
+//   custId: number;
+//   name: string;
+//   mobileNo: string;
+//   password: string;
 
-  constructor() {
-    this.custId = 0;
-    this.name = '';
-    this.mobileNo = '';
-    this.password = '';
-  }
-}
+//   constructor() {
+//     this.custId = 0;
+//     this.name = '';
+//     this.mobileNo = '';
+//     this.password = '';
+//   }
+// }
 

@@ -15,8 +15,8 @@ import { CreateProductModel } from '../../../model/create-product-model';
 export class ProductsComponent implements OnInit {
   private productService = inject(ProductService);
   ngOnInit(): void {
-    this.getAllCategory();
-    this.getAllProduct();
+    // this.getAllCategory();
+    // this.getAllProduct();
   }
 
   allCategoryList = {
