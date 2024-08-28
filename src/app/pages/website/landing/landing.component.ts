@@ -32,7 +32,7 @@ export class LandingComponent implements OnInit {
   showRegisterPassword: boolean = false;
   showProfilePassword: boolean = false;
   isApiCallInProgress: boolean = false;
-  constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient, private toastr: ToastrService) {
+  constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient) {
     const localData = sessionStorage.getItem('bigBasket_user');
     if (localData !== null) {
       this.loggedInObj = JSON.parse(localData);
@@ -119,7 +119,7 @@ export class LandingComponent implements OnInit {
     this.prodSrv.removeProductByCartId(cartId).subscribe((res: any) => {
       this.getCartByCustomerId(this.loggedInObj.custId);
       this.prodSrv.cartUpdated$.next(true);
-      this.toastr.error(res.message);
+      // this.toastr.error(res.message);
     });
   }
 
@@ -140,13 +140,6 @@ export class LandingComponent implements OnInit {
   openRegisterModal() {
     this.displayModalRegistration = true;
   }
-
-  // this.prodSrv.cartUpdated$.subscribe((res: any) => {
-  //   if (res) {
-  //     this.getCartByCustomerId(this.loggedInObj.custId);
-  //   }
-  // });
-
   
 
 }

@@ -7,42 +7,35 @@ import { CategoriesComponent } from './pages/admin/categories/categories.compone
 import { LandingComponent } from './pages/website/landing/landing.component';
 
 export const routes: Routes = [
-    {
-        path:'',
-        redirectTo:'shop',
-        pathMatch:'full'
-
-    },
-    {
-        path:'login',
-        component:LoginComponent
-
-    },
-    {
-        path:'shop',
-        component:LandingComponent
-
-    },
-    {
-        path:'',
-        component:LayoutComponent,
-        children:[
-            {
-                path:'product',
-                component:ProductsComponent
-
-            },
-            {
-                path:'category',
-                component:CategoriesComponent
-
-            },
-            {
-                path:'order',
-                component:OrderComponent
-
-            },
-
-        ]
-    }
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'shop',
+        component: LandingComponent,
+      },
+      {
+        path: 'product',
+        component: ProductsComponent,
+      },
+      {
+        path: 'category',
+        component: CategoriesComponent,
+      },
+      {
+        path: 'order',
+        component: OrderComponent,
+      },
+    ],
+  },
 ];
