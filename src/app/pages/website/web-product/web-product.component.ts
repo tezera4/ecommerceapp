@@ -15,8 +15,8 @@ export class WebProductComponent  implements OnInit {
   private route=inject(Router);
  
   ngOnInit(): void {
-    this.getAllProduct();
-    this.getAllCategory();
+    // this.getAllProduct();
+    // this.getAllCategory();
   }
   categoryList: any[] = [];
   allProductList = {
